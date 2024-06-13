@@ -111,12 +111,14 @@ def getGmailInternalDate(unixtime):
 # GmailAPI 本文取得
 def getGamilBody(txt):
   message = ''
-  # text/plan
+  # textメール
   if 'data' in txt['payload']['body']:
     message = txt['payload']['body']['data']
-  # text/html
+  # htmlメール
   elif 'parts' in txt['payload']:
-    if 'data' in txt['payload']['parts'][0]['body']:
+    if 'parts' in txt['payload']['parts'][0]:
+      message = txt['payload']['parts'][0]['parts'][0]['body']['data']
+    elif 'body' in txt['payload']['parts'][0]:
       message = txt['payload']['parts'][0]['body']['data']
 
   return base64ToUtf8(message)
